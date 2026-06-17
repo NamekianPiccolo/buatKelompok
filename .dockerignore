@@ -1,0 +1,14 @@
+.git
+.env
+Dockerfile
+docker-compose.yml
+vendor/
+writable/cache/*
+writable/debugbar/*
+writable/logs/*
+writable/session/*
+*.pdf
+*.docx
+*.zip
+*.rar
+laragon/

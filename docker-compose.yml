@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: ci4_web_app
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+    environment:
+      - CI_ENVIRONMENT=development
+      # Overriding .env settings inside the container to connect to the MySQL service
+      - database.default.hostname=db
+      - database.default.database=perpus_db
+      - database.default.username=perpus_user
+      - database.default.password=perpus_password
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: ci4_mysql_db
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=perpus_db
+      - MYSQL_USER=perpus_user
+      - MYSQL_PASSWORD=perpus_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./perpus_db.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:
