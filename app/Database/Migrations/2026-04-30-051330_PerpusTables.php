@@ -153,7 +153,7 @@ class PerpusTables extends Migration
 
         // tbl_peminjaman
         $this->forge->addField([
-            'no_peminjaman' => [
+            'id_peminjaman' => [
                 'type' => 'VARCHAR',
                 'constraint' => '50',
             ],
@@ -171,13 +171,13 @@ class PerpusTables extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
             ],
-            'status' => [
+            'status_peminjaman' => [
                 'type' => 'VARCHAR',
                 'constraint' => '50',
                 'default' => 'Dipinjam',
             ],
         ]);
-        $this->forge->addKey('no_peminjaman', true);
+        $this->forge->addKey('id_peminjaman', true);
         $this->forge->createTable('tbl_peminjaman');
 
         // tbl_detail_peminjaman
@@ -188,13 +188,18 @@ class PerpusTables extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'no_peminjaman' => [
+            'id_peminjaman' => [
                 'type' => 'VARCHAR',
                 'constraint' => '50',
             ],
             'id_buku' => [
                 'type' => 'VARCHAR',
                 'constraint' => '20',
+            ],
+            'status_kembali' => [
+                'type' => 'VARCHAR',
+                'constraint' => '50',
+                'default' => 'Belum',
             ],
         ]);
         $this->forge->addKey('id_detail', true);
@@ -229,3 +234,4 @@ class PerpusTables extends Migration
         $this->forge->dropTable('tbl_admin');
     }
 }
+
