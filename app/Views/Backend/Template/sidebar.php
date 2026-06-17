@@ -1,14 +1,14 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<ul class="nav menu">
-			<li class="<?= (isset($title) && $title == 'dashboard') ? 'active' : '' ?>">
+			<li>
 				<a href="<?= base_url('admin/dashboard-admin') ?>"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
 			
-			<li class="parent <?= (isset($title) && in_array($title, ['Admin', 'Anggota', 'Kategori', 'Rak', 'Buku'])) ? 'active' : '' ?>">
-				<a href="#sub-item-1" data-toggle="collapse" aria-expanded="<?= (isset($title) && in_array($title, ['Admin', 'Anggota', 'Kategori', 'Rak', 'Buku'])) ? 'true' : 'false' ?>">
+			<li class="parent ">
+				<a href="#sub-item-1" data-toggle="collapse" aria-expanded="false">
 					<span class="glyphicon glyphicon-list"></span> Master Data 
-					<span class="icon pull-right"><em class="glyphicon glyphicon-s <?= (isset($title) && in_array($title, ['Admin', 'Anggota', 'Kategori', 'Rak', 'Buku'])) ? 'glyphicon-minus' : 'glyphicon-plus' ?>"></em></span>
+					<span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
 				</a>
-				<ul class="children collapse <?= (isset($title) && in_array($title, ['Admin', 'Anggota', 'Kategori', 'Rak', 'Buku'])) ? 'in' : '' ?>" id="sub-item-1">
+				<ul class="children collapse" id="sub-item-1">
 					<li>
 						<a class="" href="<?= base_url('admin/master-data-admin') ?>">
 							<span class="glyphicon glyphicon-share-alt"></span> Data Admin
@@ -37,12 +37,12 @@
 				</ul>
 			</li>
 
-			<li class="parent <?= (isset($title) && in_array($title, ['Peminjaman', 'Pengembalian'])) ? 'active' : '' ?>">
-				<a href="#sub-item-2" data-toggle="collapse" aria-expanded="<?= (isset($title) && in_array($title, ['Peminjaman', 'Pengembalian'])) ? 'true' : 'false' ?>">
+			<li class="parent ">
+				<a href="#sub-item-2" data-toggle="collapse" aria-expanded="false">
 					<span class="glyphicon glyphicon-random"></span> Transaksi 
-					<span class="icon pull-right"><em class="glyphicon glyphicon-s <?= (isset($title) && in_array($title, ['Peminjaman', 'Pengembalian'])) ? 'glyphicon-minus' : 'glyphicon-plus' ?>"></em></span>
+					<span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
 				</a>
-				<ul class="children collapse <?= (isset($title) && in_array($title, ['Peminjaman', 'Pengembalian'])) ? 'in' : '' ?>" id="sub-item-2">
+				<ul class="children collapse" id="sub-item-2">
 					<li>
 						<a class="" href="<?= base_url('admin/data-transaksi-peminjaman') ?>">
 							<span class="glyphicon glyphicon-share-alt"></span> Peminjaman

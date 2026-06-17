@@ -46,6 +46,7 @@
 						<div class="col-sm-3 col-lg-5 widget-left">
 							<em class="glyphicon glyphicon-random glyphicon-l"></em>
 						</div>
+
 						<div class="col-sm-9 col-lg-7 widget-right">
 							<div class="large">24</div>
 							<div class="text-muted">Peminjaman</div>
@@ -79,4 +80,4 @@
         </div>
 	</div>	<!--/.main-->
 
-
+	
