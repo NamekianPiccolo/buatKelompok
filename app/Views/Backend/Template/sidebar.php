@@ -56,6 +56,35 @@
 				</ul>
 			</li>
 
+			<li class="parent ">
+				<a href="#sub-item-3" data-toggle="collapse" aria-expanded="false">
+					<span class="glyphicon glyphicon-print"></span> Laporan 
+					<span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+				</a>
+				<ul class="children collapse" id="sub-item-3">
+					<li>
+						<a class="" href="<?= base_url('admin/laporan') ?>">
+							<span class="glyphicon glyphicon-share-alt"></span> Portal Laporan
+						</a>
+					</li>
+					<li>
+						<a class="" href="<?= base_url('admin/laporan-anggota') ?>">
+							<span class="glyphicon glyphicon-share-alt"></span> Laporan Anggota
+						</a>
+					</li>
+					<li>
+						<a class="" href="<?= base_url('admin/laporan-buku') ?>">
+							<span class="glyphicon glyphicon-share-alt"></span> Laporan Buku
+						</a>
+					</li>
+					<li>
+						<a class="" href="<?= base_url('admin/laporan-transaksi') ?>">
+							<span class="glyphicon glyphicon-share-alt"></span> Laporan Transaksi
+						</a>
+					</li>
+				</ul>
+			</li>
+
 			<li role="presentation" class="divider" style="position: absolute; bottom: 90px; width: 100%; margin: 0;"></li>
 			<li style="position: absolute; bottom: 50px; width: 100%;"><a href="<?= base_url('admin/logout-admin') ?>"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
 		</ul>

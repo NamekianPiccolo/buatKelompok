@@ -71,11 +71,15 @@
             </table>
         </div>
 
-        <div class="qr">
+        <div class="qr" style="text-align: right; margin-top: 20px;">
             <?php if(file_exists('Assets/QRCode/'.$peminjaman['id_peminjaman'].'.png')): ?>
-                <img src="<?= base_url('Assets/QRCode/'.$peminjaman['id_peminjaman'].'.png') ?>" width="100">
+                <div style="display: inline-block; text-align: center;">
+                    <img src="<?= base_url('Assets/QRCode/'.$peminjaman['id_peminjaman'].'.png') ?>" width="120" style="border: 1px solid #ddd; padding: 5px; background: #fff;"><br>
+                    <span style="font-family: monospace; font-size: 11px; display: block; margin-top: 5px;">QR ID (Hash): <?= sha1($peminjaman['id_peminjaman']) ?></span>
+                    <span style="font-family: monospace; font-size: 12px; display: block; font-weight: bold; margin-top: 2px;">Code QR: <?= $peminjaman['id_peminjaman'] ?></span>
+                </div>
             <?php endif; ?>
-            <p>Admin: <?= session()->get('namaAgt') ?></p>
+            <p style="margin-top: 10px;">Admin: <?= session()->get('namaAgt') ?></p>
         </div>
     </div>
 </body>

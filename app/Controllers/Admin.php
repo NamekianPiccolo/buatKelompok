@@ -1258,9 +1258,29 @@ class Admin extends BaseController
                     mkdir(FCPATH . 'Assets/QRCode', 0777, true);
                 }
                 if (class_exists('\\Endroid\\QrCode\\QrCode')) {
+                    $hashedData = sha1($id_peminjaman);
                     $writer = new \Endroid\QrCode\Writer\PngWriter();
-                    $qrCode = new \Endroid\QrCode\QrCode($id_peminjaman);
-                    $result = $writer->write($qrCode);
+                    
+                    // Create QrCode with High error correction level for logo
+                    $qrCode = new \Endroid\QrCode\QrCode(
+                        data: $hashedData,
+                        errorCorrectionLevel: \Endroid\QrCode\ErrorCorrectionLevel::High,
+                        size: 300,
+                        margin: 10
+                    );
+
+                    // Create Logo if it exists
+                    $logoPath = FCPATH . 'Assets/img/logo-bsi.png';
+                    $logo = null;
+                    if (file_exists($logoPath)) {
+                        $logo = new \Endroid\QrCode\Logo\Logo(
+                            path: $logoPath,
+                            resizeToWidth: 80,
+                            resizeToHeight: 80
+                        );
+                    }
+
+                    $result = $writer->write($qrCode, $logo);
                     $result->saveToFile(FCPATH . 'Assets/QRCode/' . $id_peminjaman . '.png');
                 }
             } catch (\Exception $e) {
@@ -1292,6 +1312,29 @@ class Admin extends BaseController
             $data['peminjaman'] = $this->m_peminjaman->getDataPeminjaman(['tbl_peminjaman.id_peminjaman' => $id])->getRowArray();
             $data['detail'] = $this->m_peminjaman->detailPeminjaman($id)->getResultArray();
             echo view('Backend/Transaksi/Peminjaman/cetak-peminjaman', $data);
+        }
+    }
+
+    public function detail_peminjaman()
+    {
+        if (session()->get('ses_id') == "" or session()->get('ses_user') == "" or session()->get('ses_level') == "") {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu!');
+            ?>
+            <script>
+                document.location = "<?= base_url('admin/login-admin') ?>";
+            </script>
+            <?php
+        } else {
+            $uri = service('uri');
+            $id = $uri->getSegment(3);
+            $data['title'] = 'Peminjaman';
+            $data['peminjaman'] = $this->m_peminjaman->getDataPeminjaman(['tbl_peminjaman.id_peminjaman' => $id])->getRowArray();
+            $data['detail'] = $this->m_peminjaman->detailPeminjaman($id)->getResultArray();
+            
+            echo view('Backend/Template/header', $data);
+            echo view('Backend/Template/sidebar', $data);
+            echo view('Backend/Transaksi/Peminjaman/detail-peminjaman', $data);
+            echo view('Backend/Template/footer', $data);
         }
     }
 
@@ -1356,6 +1399,191 @@ class Admin extends BaseController
                 document.location = "<?= base_url('admin/data-transaksi-pengembalian') ?>";
             </script>
             <?php
+        }
+    }
+
+    // --- REPORT MODULES ---
+
+    public function laporan()
+    {
+        if (session()->get('ses_id') == "" or session()->get('ses_user') == "" or session()->get('ses_level') == "") {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu!');
+            ?>
+            <script>
+                document.location = "<?= base_url('admin/login-admin') ?>";
+            </script>
+            <?php
+        } else {
+            $data['title'] = 'Laporan';
+            echo view('Backend/Template/header', $data);
+            echo view('Backend/Template/sidebar', $data);
+            echo view('Backend/Laporan/laporan', $data);
+            echo view('Backend/Template/footer', $data);
+        }
+    }
+
+    public function laporan_anggota()
+    {
+        if (session()->get('ses_id') == "" or session()->get('ses_user') == "" or session()->get('ses_level') == "") {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu!');
+            ?>
+            <script>
+                document.location = "<?= base_url('admin/login-admin') ?>";
+            </script>
+            <?php
+        } else {
+            $data['title'] = 'Laporan Anggota';
+            $data['anggota'] = $this->m_anggota->getDataAnggota()->getResultArray();
+            echo view('Backend/Template/header', $data);
+            echo view('Backend/Template/sidebar', $data);
+            echo view('Backend/Laporan/laporan-anggota', $data);
+            echo view('Backend/Template/footer', $data);
+        }
+    }
+
+    public function cetak_laporan_anggota()
+    {
+        if (session()->get('ses_id') == "" or session()->get('ses_user') == "" or session()->get('ses_level') == "") {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu!');
+            ?>
+            <script>
+                document.location = "<?= base_url('admin/login-admin') ?>";
+            </script>
+            <?php
+        } else {
+            $data['anggota'] = $this->m_anggota->getDataAnggota()->getResultArray();
+            echo view('Backend/Laporan/cetak-laporan-anggota', $data);
+        }
+    }
+
+    public function laporan_buku()
+    {
+        if (session()->get('ses_id') == "" or session()->get('ses_user') == "" or session()->get('ses_level') == "") {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu!');
+            ?>
+            <script>
+                document.location = "<?= base_url('admin/login-admin') ?>";
+            </script>
+            <?php
+        } else {
+            $data['title'] = 'Laporan Buku';
+            $data['dataBuku'] = $this->m_buku->getDataBukuJoin()->getResultArray();
+            echo view('Backend/Template/header', $data);
+            echo view('Backend/Template/sidebar', $data);
+            echo view('Backend/Laporan/laporan-buku', $data);
+            echo view('Backend/Template/footer', $data);
+        }
+    }
+
+    public function cetak_laporan_buku()
+    {
+        if (session()->get('ses_id') == "" or session()->get('ses_user') == "" or session()->get('ses_level') == "") {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu!');
+            ?>
+            <script>
+                document.location = "<?= base_url('admin/login-admin') ?>";
+            </script>
+            <?php
+        } else {
+            $data['dataBuku'] = $this->m_buku->getDataBukuJoin()->getResultArray();
+            echo view('Backend/Laporan/cetak-laporan-buku', $data);
+        }
+    }
+
+    public function laporan_transaksi()
+    {
+        if (session()->get('ses_id') == "" or session()->get('ses_user') == "" or session()->get('ses_level') == "") {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu!');
+            ?>
+            <script>
+                document.location = "<?= base_url('admin/login-admin') ?>";
+            </script>
+            <?php
+        } else {
+            $data['title'] = 'Laporan Transaksi';
+            
+            $tgl_mulai = $this->request->getGet('tgl_mulai');
+            $tgl_selesai = $this->request->getGet('tgl_selesai');
+            $status = $this->request->getGet('status');
+
+            $db = \Config\Database::connect();
+            $builder = $db->table('tbl_peminjaman');
+            $builder->select('tbl_peminjaman.*, tbl_anggota.nama_anggota, tbl_admin.nama_admin');
+            $builder->join('tbl_anggota', 'tbl_anggota.id_anggota = tbl_peminjaman.id_anggota', 'left');
+            $builder->join('tbl_admin', 'tbl_admin.id_admin = tbl_peminjaman.id_admin', 'left');
+
+            if ($tgl_mulai) {
+                $builder->where('tbl_peminjaman.tgl_pinjam >=', $tgl_mulai);
+            }
+            if ($tgl_selesai) {
+                $builder->where('tbl_peminjaman.tgl_pinjam <=', $tgl_selesai);
+            }
+            if ($status && $status != 'Semua') {
+                $builder->where('tbl_peminjaman.status_peminjaman', $status);
+            }
+
+            $builder->orderBy('tbl_peminjaman.id_peminjaman', 'DESC');
+            $peminjaman = $builder->get()->getResultArray();
+
+            foreach ($peminjaman as &$p) {
+                $p['detail'] = $this->m_peminjaman->detailPeminjaman($p['id_peminjaman'])->getResultArray();
+            }
+
+            $data['peminjaman'] = $peminjaman;
+            $data['tgl_mulai'] = $tgl_mulai;
+            $data['tgl_selesai'] = $tgl_selesai;
+            $data['status'] = $status;
+
+            echo view('Backend/Template/header', $data);
+            echo view('Backend/Template/sidebar', $data);
+            echo view('Backend/Laporan/laporan-transaksi', $data);
+            echo view('Backend/Template/footer', $data);
+        }
+    }
+
+    public function cetak_laporan_transaksi()
+    {
+        if (session()->get('ses_id') == "" or session()->get('ses_user') == "" or session()->get('ses_level') == "") {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu!');
+            ?>
+            <script>
+                document.location = "<?= base_url('admin/login-admin') ?>";
+            </script>
+            <?php
+        } else {
+            $tgl_mulai = $this->request->getGet('tgl_mulai');
+            $tgl_selesai = $this->request->getGet('tgl_selesai');
+            $status = $this->request->getGet('status');
+
+            $db = \Config\Database::connect();
+            $builder = $db->table('tbl_peminjaman');
+            $builder->select('tbl_peminjaman.*, tbl_anggota.nama_anggota, tbl_admin.nama_admin');
+            $builder->join('tbl_anggota', 'tbl_anggota.id_anggota = tbl_peminjaman.id_anggota', 'left');
+            $builder->join('tbl_admin', 'tbl_admin.id_admin = tbl_peminjaman.id_admin', 'left');
+
+            if ($tgl_mulai) {
+                $builder->where('tbl_peminjaman.tgl_pinjam >=', $tgl_mulai);
+            }
+            if ($tgl_selesai) {
+                $builder->where('tbl_peminjaman.tgl_pinjam <=', $tgl_selesai);
+            }
+            if ($status && $status != 'Semua') {
+                $builder->where('tbl_peminjaman.status_peminjaman', $status);
+            }
+
+            $builder->orderBy('tbl_peminjaman.id_peminjaman', 'DESC');
+            $peminjaman = $builder->get()->getResultArray();
+
+            foreach ($peminjaman as &$p) {
+                $p['detail'] = $this->m_peminjaman->detailPeminjaman($p['id_peminjaman'])->getResultArray();
+            }
+
+            $data['peminjaman'] = $peminjaman;
+            $data['tgl_mulai'] = $tgl_mulai;
+            $data['tgl_selesai'] = $tgl_selesai;
+            $data['status'] = $status;
+
+            echo view('Backend/Laporan/cetak-laporan-transaksi', $data);
         }
     }
 }

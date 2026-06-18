@@ -71,7 +71,17 @@ $routes->get('/admin/simpan-temp-pinjam/(:any)', 'Admin::simpan_temp_pinjam_get/
 $routes->get('/admin/hapus-temp/(:any)', 'Admin::hapus_temp/$1');
 $routes->post('/admin/simpan-transaksi-peminjaman', 'Admin::simpan_transaksi_peminjaman');
 $routes->get('/admin/cetak-peminjaman/(:alphanum)', 'Admin::cetak_peminjaman/$1');
+$routes->get('/admin/detail-peminjaman/(:alphanum)', 'Admin::detail_peminjaman/$1');
 
 // Routes untuk transaksi pengembalian
 $routes->get('/admin/data-transaksi-pengembalian', 'Admin::data_transaksi_pengembalian');
 $routes->get('/admin/kembalikan-buku/(:any)/(:any)', 'Admin::kembalikan_buku/$1/$2');
+
+// Routes untuk Laporan
+$routes->get('/admin/laporan', 'Admin::laporan');
+$routes->get('/admin/laporan-anggota', 'Admin::laporan_anggota');
+$routes->get('/admin/cetak-laporan-anggota', 'Admin::cetak_laporan_anggota');
+$routes->get('/admin/laporan-buku', 'Admin::laporan_buku');
+$routes->get('/admin/cetak-laporan-buku', 'Admin::cetak_laporan_buku');
+$routes->get('/admin/laporan-transaksi', 'Admin::laporan_transaksi');
+$routes->get('/admin/cetak-laporan-transaksi', 'Admin::cetak_laporan_transaksi');

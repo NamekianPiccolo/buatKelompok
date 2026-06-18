@@ -40,6 +40,7 @@
                                     <td><?= $p['tgl_kembali'] ?></td>
                                     <td><?= $p['status_peminjaman'] ?></td>
                                     <td>
+                                        <a href="<?= base_url('admin/detail-peminjaman/'.$p['id_peminjaman']) ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Detail</a>
                                         <a href="<?= base_url('admin/cetak-peminjaman/'.$p['id_peminjaman']) ?>" target="_blank" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-print"></span> Cetak</a>
                                     </td>
                                 </tr>
